@@ -1,11 +1,7 @@
 Analysis on Physical Characteristics of Penguins in the Palmer
 Archipelago
 ================
-2025-11-17
-
-# Analysis on Physical Characteristics of Penguins in the Palmer Archipelago
-
-#### Jyotika Sharma, Selena Cooper, Grace Kolker
+Jyotika Sharma, Selena Cooper, Grace Kolker
 
 ## Introduction
 
@@ -75,6 +71,47 @@ data(package = "palmerpenguins")
 
 ### Cleaning
 
+``` r
+library(tidyverse)
+```
+
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+    ## ✔ purrr     1.1.0     
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+``` r
+penguins_clean <- penguins |> 
+  drop_na()
+
+# Check dimensions before/after
+dim(penguins)
+```
+
+    ## [1] 344   8
+
+``` r
+dim(penguins_clean)
+```
+
+    ## [1] 333   8
+
+The Palmer Penguins dataset was already very clean and well-structured
+upon import, containing properly formatted variable types and no obvious
+outliers or inconsistent entries. We did not need to convert sex to
+factor since it already is well. The only issues present were several
+missing values in the bill measurements, flipper length, body mass, and
+sex variables. To ensure accurate and consistent analysis across all
+variables, we removed rows containing any missing values using
+drop_na(). This reduced the dataset from 344 observations to 333
+complete cases.
+
 ### Variables
 
 ``` r
@@ -98,7 +135,7 @@ str(penguins)
     ##  $ year             : int [1:344] 2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...
 
 There are 344 penguins in the dataset. There are 3 different species of
-penguins collected from 3 different islands in the Parmer Archipelago.
+penguins collected from 3 different islands in the Palmer Archipelago.
 
 - species: the biological species of each penguin (Adelie, Gentoo, and
   Chinstrap)
@@ -116,3 +153,143 @@ penguins collected from 3 different islands in the Parmer Archipelago.
   seasons (2007, 2008, 2009)
 
 ## Results
+
+### How do body size measurements vary between penguin species? Are certain species consistently larger in one or more measurements such as body mass or flipper length?
+
+### How do bill length and bill depth interact to help differentiate penguin species? Can these measurements be used to identify species differences effectively?
+
+### Is there a relationship between flipper length and body mass across species? Do larger flippers indicate heavier penguins, and does this relationship differ by species?
+
+``` r
+library(ggplot2)
+library(dplyr)
+
+penguins_clean |> 
+  group_by(species) |> 
+  summarize(correlation = cor(flipper_length_mm, body_mass_g))
+```
+
+    ## # A tibble: 3 × 2
+    ##   species   correlation
+    ##   <fct>           <dbl>
+    ## 1 Adelie          0.465
+    ## 2 Chinstrap       0.642
+    ## 3 Gentoo          0.711
+
+``` r
+ggplot(penguins_clean, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  labs(
+    title = "Relationship Between Flipper Length and Body Mass by Species",
+    x = "Flipper Length (mm)",
+    y = "Body Mass (g)",
+    color = "Species"
+  )
+```
+
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+The scatterplot reveals a strong positive relationship between flipper
+length and body mass across all penguin species. In general, penguins
+with longer flippers tend to be heavier, and this trend is consistent
+regardless of species. However, the strength and position of this
+relationship differ by species, which is further supported by the
+correlation values.
+
+Gentoo penguins (blue points) clearly occupy the upper-right range of
+the plot, indicating that they have both the longest flippers (around
+210–230 mm) and the highest body mass (4500–6000 g). Their correlation
+coefficient (r ≈ 0.71) is the strongest among the three species,
+highlighting a very pronounced relationship between flipper size and
+overall body mass. This suggests that Gentoos are significantly larger
+overall compared to the other species.
+
+Chinstrap penguins (green points) fall in the middle range, with
+moderate flipper lengths and body mass values. Their trend line shows a
+positive association supported by a moderately strong correlation (r ≈
+0.64). While not as steep or wide as the Gentoo group, the Chinstrap
+data still demonstrates a clear connection between flipper length and
+body mass.
+
+Adelie penguins (red points) cluster in the lower-left region,
+indicating shorter flippers and lower body mass. Their positive
+relationship is visible but weaker compared to the other species, which
+aligns with their lower correlation value (r ≈ 0.46). This indicates
+that while flipper length still relates to body mass for Adelies, the
+relationship is less strong.
+
+Overall, the plot and correlation analysis together indicate that larger
+flippers correspond to heavier body mass, but the magnitude of this
+relationship varies by species. Gentoo penguins exhibit the strongest
+and most pronounced trend, while Adelie and Chinstrap penguins show
+smaller ranges of body size. This suggests that differences in body size
+are both species-specific and biologically meaningful.
+
+### How does sex influence body size? Are male penguins consistently larger than female penguins across all species, and does this vary in strength across difference species?
+
+``` r
+penguins_clean |> 
+  group_by(species, sex) |> 
+  summarize(mean_mass = mean(body_mass_g, na.rm = TRUE))
+```
+
+    ## `summarise()` has grouped output by 'species'. You can override using the
+    ## `.groups` argument.
+
+    ## # A tibble: 6 × 3
+    ## # Groups:   species [3]
+    ##   species   sex    mean_mass
+    ##   <fct>     <fct>      <dbl>
+    ## 1 Adelie    female     3369.
+    ## 2 Adelie    male       4043.
+    ## 3 Chinstrap female     3527.
+    ## 4 Chinstrap male       3939.
+    ## 5 Gentoo    female     4680.
+    ## 6 Gentoo    male       5485.
+
+``` r
+ggplot(penguins_clean, aes(x = sex, y = body_mass_g, fill = sex)) +
+  geom_boxplot(alpha = 0.8) +
+  facet_wrap(~ species) +
+  labs(
+    title = "Body Mass by Sex Across Penguin Species",
+    x = "Sex",
+    y = "Body Mass (g)"
+  ) 
+```
+
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+The boxplot shows that male penguins are consistently larger in body
+mass than female penguins across all three species, indicating a clear
+pattern of sexual dimorphism in the Palmer Penguins dataset. However,
+the magnitude of this size difference varies between species, which is
+further supported by the mean body mass values.
+
+For Adelie penguins, the difference between males and females is
+noticeable but modest. Male Adelies have an average body mass of about
+4043 g, while females average around 3369 g, placing both groups within
+the 3200–4200 g range. Although their distributions overlap slightly,
+the numerical means confirm a moderate sex-based size difference.
+
+In Chinstrap penguins, the size difference between males and females
+becomes more pronounced. Male Chinstraps average approximately 3939 g,
+compared to 3527 g for females. This 400-gram gap, paired with the
+reduced overlap in the boxplots, indicates stronger separation than
+observed in Adelies.
+
+The strongest sex difference appears in Gentoo penguins. Males are
+significantly heavier, with an average mass of about 5485 g, while
+females average around 4680 g. This substantial difference of more than
+800 grams, along with minimal overlap in the boxplots, highlights the
+most pronounced sex-based size difference across the three species.
+
+Overall, the plot and mean mass values together demonstrate that sex
+influences body size in all species, but the strength of this effect
+increases from Adelie to Chinstrap to Gentoo. This suggests that sexual
+dimorphism is a consistent biological pattern in penguins, though more
+pronounced in some species than others.
+
+### Does the island a penguins inhabits affect its body measurements? Are physical differences across islands still present even after accounting for species?
+
+### Which variable (bill length, bill depth, flipper length, or body mass) provides the strongest prediction of species classification? How do combines variables compare to single-variable predication?
