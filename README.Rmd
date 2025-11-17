@@ -14,11 +14,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-The goal of this project is to explore the Palmer Penguins dataset to better understand the differences in physical traits between penguin species. This dataset includes measurements collected on three penguins species (Adelie, Gentoo, and Chinstrap) living on multiple islands in the Palmer Archipelago in Antarctica. By analyzing these phsycial measurements, we hope to identify patterns, species differneces, and relationships between body size variables. Understanding these traits can help explain how environmental conditions and biological factors may influence species variation and survival.
+The goal of this project is to explore the Palmer Penguins dataset to better understand the differences in physical traits between penguin species. This dataset includes measurements collected on three penguins species (Adelie, Gentoo, and Chinstrap) living on multiple islands in the Palmer Archipelago in Antarctica. By analyzing these physical measurements, we hope to identify patterns, species differneces, and relationships between body size variables. Understanding these traits can help explain how environmental conditions and biological factors may influence species variation and survival.
 
 ## Data
 
 ### Structure
+
+The link to the dataset is
+```{r}
+install.packages("palmerpenguins")
+# install.packages("remotes")
+remotes::install_github("allisonhorst/palmerpenguins")
+library(palmerpenguins)
+data(package = 'palmerpenguins')
+```
 
 ### Cleaning
 
