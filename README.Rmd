@@ -11,3 +11,17 @@ knitr::opts_chunk$set(echo = TRUE)
 # Analysis on Physical Characteristics of Penguins in the Palmer Archipelago
 
 #### Jyotika Sharma, Selena Cooper, Grace Kolker
+
+## Introduction
+
+The goal of this project is to explore the Palmer Penguins dataset to better understand the differences in physical traits between penguin species. This dataset includes measurements collected on three penguins species (Adelie, Gentoo, and Chinstrap) living on multiple islands in the Palmer Archipelago in Antarctica. By analyzing these phsycial measurements, we hope to identify patterns, species differneces, and relationships between body size variables. Understanding these traits can help explain how environmental conditions and biological factors may influence species variation and survival.
+
+## Data
+
+### Structure
+
+### Cleaning
+
+### Variables
+
+## Results
