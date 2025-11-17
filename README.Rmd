@@ -22,11 +22,8 @@ The goal of this project is to explore the Palmer Penguins dataset to better und
 
 The link to the dataset is
 ```{r}
-install.packages("palmerpenguins")
-# install.packages("remotes")
-remotes::install_github("allisonhorst/palmerpenguins")
 library(palmerpenguins)
-data(package = 'palmerpenguins')
+data(package = "palmerpenguins")
 ```
 
 ### Cleaning
