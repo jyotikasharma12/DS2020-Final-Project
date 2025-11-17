@@ -45,5 +45,19 @@ data(package = "palmerpenguins")
 ### Cleaning
 
 ### Variables
+```{r}
+dim(penguins)
+str(penguins)
+```
+There are 344 penguins in the dataset. There are 3 different species of penguins collected from 3 different islands in the Parmer Archipelago.
+
+* species: the biological species of each penguin (Adelie, Gentoo, and Chinstrap)
+* island: The island within the Palmer Archipelago where the penguin was observed (Biscoe, Dream, and Torgersen)
+* bill_length_mm: The length of the penguin's bill (from tip to base) measured in milimeters
+* bill_depth_mm: Thickness (depth) fo the penguin's bill measured at the base in milimeters
+* flipper_length_mm: Length of the penguin's flipper from shoulder to tip measured in milimeters
+* body_mass_g: Body weight of the penguin measured in grams
+* sex: Sex of the penguin (male or female)
+* year: The year the penguin was sampled during the Palmer Station field seasons (2007, 2008, 2009)
 
 ## Results
