@@ -225,6 +225,67 @@ and most pronounced trend, while Adelie and Chinstrap penguins show
 smaller ranges of body size. This suggests that differences in body size
 are both species-specific and biologically meaningful.
 
+After seeing a positive trend in the scatterplot, I became curious
+whether the relationship looked the same within each species. To check
+this, I calculated the average body mass for groups of flipper lengths:
+
+``` r
+penguins_clean$flipper_group <- cut(penguins_clean$flipper_length_mm,
+                                    breaks = 4)
+
+tapply(penguins_clean$body_mass_g,
+       list(penguins_clean$species, penguins_clean$flipper_group),
+       mean, na.rm = TRUE)
+```
+
+    ##           (172,187] (187,202] (202,216] (216,231]
+    ## Adelie     3487.805  3771.212  4125.000        NA
+    ## Chinstrap  3562.500  3648.039  4119.231        NA
+    ## Gentoo           NA        NA  4798.361  5401.724
+
+These grouped averages increased steadily within each species,
+reinforcing the visual pattern that longer flippers generally correspond
+to heavier penguins. Even though each species has different absolute
+sizes, the upward pattern appeared in all three species, confirming the
+overall positive association.
+
+To test whether the trend was possibly driven by a few extreme values, I
+examined the minimum and maximum values:
+
+``` r
+tapply(penguins_clean$body_mass_g, penguins_clean$species, range)
+```
+
+    ## $Adelie
+    ## [1] 2850 4775
+    ## 
+    ## $Chinstrap
+    ## [1] 2700 4800
+    ## 
+    ## $Gentoo
+    ## [1] 3950 6300
+
+``` r
+tapply(penguins_clean$flipper_length_mm, penguins_clean$species, range)
+```
+
+    ## $Adelie
+    ## [1] 172 210
+    ## 
+    ## $Chinstrap
+    ## [1] 178 212
+    ## 
+    ## $Gentoo
+    ## [1] 203 231
+
+These ranges showed that Gentoo penguins have much larger bodies
+overall, raising skepticism that part of the trend might simply reflect
+species-level differences. Because each species occupies a different
+size range, the overall positive trend could be partly due to species
+clustering rather than a universal relationship within all penguins.
+This made me cautious about assuming the trend applies equally to every
+individual penguin.
+
 ### How does sex influence body size? Are male penguins consistently larger than female penguins across all species, and does this vary in strength across difference species?
 
 ``` r
@@ -258,7 +319,7 @@ ggplot(penguins_clean, aes(x = sex, y = body_mass_g, fill = sex)) +
   ) 
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 The boxplot shows that male penguins are consistently larger in body
 mass than female penguins across all three species, indicating a clear
@@ -289,6 +350,27 @@ influences body size in all species, but the strength of this effect
 increases from Adelie to Chinstrap to Gentoo. This suggests that sexual
 dimorphism is a consistent biological pattern in penguins, though more
 pronounced in some species than others.
+
+To explore whether the differences were consistent or if a few unusual
+values might be influencing the result, I looked at the standard
+deviations:
+
+``` r
+tapply(penguins_clean$body_mass_g,
+       list(penguins_clean$species, penguins_clean$sex),
+       sd, na.rm = TRUE)
+```
+
+    ##             female     male
+    ## Adelie    269.3801 346.8116
+    ## Chinstrap 285.3339 362.1376
+    ## Gentoo    281.5783 313.1586
+
+Gentoo males had a standard deviation of about 313 g, noticeably larger
+than Adelie females (≈269 g) or Chinstrap females (≈285 g), which shows
+that body mass varies a lot within this group. This suggested to me that
+the difference between male and female Gentoo penguins may not be as
+uniform as the boxplot makes it appear.
 
 ### Does the island a penguins inhabits affect its body measurements? Are physical differences across islands still present even after accounting for species?
 
