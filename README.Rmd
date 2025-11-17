@@ -1,5 +1,5 @@
 ---
-title: "README"
+title: "Analysis on Physical Characteristics of Penguins in the Palmer Archipelago"
 output: html_document
 date: "2025-11-17"
 ---
