@@ -72,7 +72,51 @@ There are 344 penguins in the dataset. There are 3 different species of penguins
 
 ###  How do body size measurements vary between penguin species? Are certain species consistently larger in one or more measurements such as body mass or flipper length?
 
-### How do bill length and bill depth interact to help differentiate penguin species? Can these measurements be used to identify species differences effectively?
+```{r}
+ggplot(penguins, aes(x = species, y = body_mass_g, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Body Mass by Penguin Species",
+       y = "Body Mass (g)") +
+  theme_minimal()
+
+ggplot(penguins, aes(x = species, y = flipper_length_mm, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Flipper Length by Penguin Species",
+       y = "Flipper Length (mm)") +
+  theme_minimal()
+
+penguins %>%
+  group_by(species) %>%
+  summarize(
+    mean_mass = mean(body_mass_g, na.rm = TRUE),
+    mean_flipper = mean(flipper_length_mm, na.rm = TRUE)
+  )
+
+```
+
+The plots and summary statistics together show clear, consistent differences in body size among the three penguin species. Gentoo penguins stand out as the largest across both measured traits. Their body masses cluster around 5000 g, and their flipper lengths center near 217 mm, both substantially higher than the other species. The boxplots also show relatively tight distributions, suggesting that Gentoos are not only larger on average but also more uniformly large.
+
+Adelie and Chinstrap penguins overlap more closely in size, but some distinctions still emerge. Chinstraps tend to have slightly higher mean values in both body mass and flipper length—about 3733 g vs. 3701 g in mass and 195.8 mm vs. 190.0 mm in flipper length. The boxplots reflect this modest separation: Chinstraps show a somewhat larger median and a slightly higher overall range in both measurements. However, the overlap between these two species indicates that size alone may not reliably differentiate them in the field.
+
+Overall, the results show a pattern where Gentoo penguins are consistently the largest in both body mass and flipper length, while Adelie and Chinstrap penguins are more similar, with Chinstraps being marginally larger on average. These size differences may reflect ecological distinctions among the species, such as diet, foraging range, and habitat use.
+
+
+###   How do bill length and bill depth interact to help differentiate penguin species? Can these measurements be used to identify species differences effectively?
+```{r}
+ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+  geom_point(size = 3, alpha = 0.8) +
+  labs(title = "Bill Length vs Bill Depth by Species",
+       x = "Bill Length (mm)",
+       y = "Bill Depth (mm)") +
+  theme_minimal()
+
+```
+The scatterplot shows that bill length and bill depth vary systematically across the three penguin species, and these differences form distinct clusters. Because each species occupies its own region in the bill-length/bill-depth space, the two measurements together provide a strong basis for distinguishing among the species.
+
+Adelie penguins tend to have shorter bills but relatively deep ones. Their points cluster on the left side of the plot with higher bill-depth values. In contrast, Gentoo penguins generally have much longer bills but are characterized by shallower depths, forming a cluster on the right with lower vertical values. Chinstrap penguins fall between the two—typically with moderate-to-long bill lengths and moderate-to-high bill depths—creating their own, somewhat overlapping but still visually separable group.
+
+These patterns indicate that bill length alone or bill depth alone may not cleanly separate the species, but the interaction of the two measurements allows for clear differentiation. By examining where a penguin falls in relation to these clusters, one can effectively predict its species. This makes bill dimensions not just biologically meaningful traits but also practical tools for classification.
+
 
 ### Is there a relationship between flipper length and body mass across species? Do larger flippers indicate heavier penguins, and does this relationship differ by species?
 ```{r}
