@@ -52,7 +52,22 @@ penguins.
 
 ### Structure
 
-The link to the dataset is
+Dataset reference: <https://allisonhorst.github.io/palmerpenguins/>
+
+The Palmer Penguins dataset used in this project comes from the
+{palmerpenguins} R package, which provides cleaned and publicly
+accessible ecological data collected by Dr. Kristen Gorman at the Palmer
+Station, Antarctica. The dataset contains measurements of penguins from
+three species—Adelie, Chinstrap, and Gentoo—sampled across three islands
+in the Palmer Archipelago (Biscoe, Dream, and Torgersen) during the
+2007–2009 field seasons.
+
+The package includes two CSV-style data frames: penguins and
+penguins_raw. For the purposes of this project, we used the cleaned
+penguins dataset because it provides standardized variable names,
+consistent data types, and minimal formatting inconsistencies. The
+dataset contains 344 rows and 8 variables, covering a range of physical
+traits and demographic attributes for each sampled penguin.
 
 ``` r
 library(palmerpenguins)
@@ -77,8 +92,8 @@ library(tidyverse)
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.1     ✔ stringr   1.5.1
-    ## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
     ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
     ## ✔ purrr     1.1.0     
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -142,11 +157,11 @@ penguins collected from 3 different islands in the Palmer Archipelago.
 - island: The island within the Palmer Archipelago where the penguin was
   observed (Biscoe, Dream, and Torgersen)
 - bill_length_mm: The length of the penguin’s bill (from tip to base)
-  measured in milimeters
+  measured in millimeters
 - bill_depth_mm: Thickness (depth) fo the penguin’s bill measured at the
   base in milimeters
 - flipper_length_mm: Length of the penguin’s flipper from shoulder to
-  tip measured in milimeters
+  tip measured in millimeters
 - body_mass_g: Body weight of the penguin measured in grams
 - sex: Sex of the penguin (male or female)
 - year: The year the penguin was sampled during the Palmer Station field
