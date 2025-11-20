@@ -56,6 +56,16 @@ The link to the dataset is
 
 ``` r
 library(palmerpenguins)
+```
+
+    ## 
+    ## Attaching package: 'palmerpenguins'
+
+    ## The following objects are masked from 'package:datasets':
+    ## 
+    ##     penguins, penguins_raw
+
+``` r
 data(package = "palmerpenguins")
 ```
 
@@ -67,10 +77,10 @@ library(tidyverse)
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   4.0.0     ✔ tibble    3.2.1
+    ## ✔ forcats   1.0.1     ✔ stringr   1.5.1
+    ## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
     ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.0.2     
+    ## ✔ purrr     1.1.0     
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
@@ -465,6 +475,257 @@ uniform as the boxplot makes it appear.
 
 ### Does the island a penguins inhabits affect its body measurements? Are physical differences across islands still present even after accounting for species?
 
+``` r
+library(palmerpenguins)
+library(dplyr)
+library(ggplot2)
+
+
+penguins_clean <- penguins %>%
+drop_na()
+
+
+head(penguins_clean)
+```
+
+    ## # A tibble: 6 × 8
+    ##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+    ##   <fct>   <fct>              <dbl>         <dbl>             <int>       <int>
+    ## 1 Adelie  Torgersen           39.1          18.7               181        3750
+    ## 2 Adelie  Torgersen           39.5          17.4               186        3800
+    ## 3 Adelie  Torgersen           40.3          18                 195        3250
+    ## 4 Adelie  Torgersen           36.7          19.3               193        3450
+    ## 5 Adelie  Torgersen           39.3          20.6               190        3650
+    ## 6 Adelie  Torgersen           38.9          17.8               181        3625
+    ## # ℹ 2 more variables: sex <fct>, year <int>
+
+``` r
+penguins_clean %>%
+group_by(island) %>%
+summarize(
+mean_mass = mean(body_mass_g, na.rm = TRUE),
+mean_flipper = mean(flipper_length_mm, na.rm = TRUE),
+mean_bill_length = mean(bill_length_mm, na.rm = TRUE),
+mean_bill_depth = mean(bill_depth_mm, na.rm = TRUE)
+)
+```
+
+    ## # A tibble: 3 × 5
+    ##   island    mean_mass mean_flipper mean_bill_length mean_bill_depth
+    ##   <fct>         <dbl>        <dbl>            <dbl>           <dbl>
+    ## 1 Biscoe        4719.         210.             45.2            15.9
+    ## 2 Dream         3719.         193.             44.2            18.3
+    ## 3 Torgersen     3709.         192.             39.0            18.5
+
+``` r
+ggplot(penguins_clean, aes(x = island, y = body_mass_g, fill = island)) +
+geom_boxplot(alpha = 0.7) +
+labs(title = "Body Mass by Island", y = "Body Mass (g)", x = "Island") +
+theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+``` r
+ggplot(penguins_clean, aes(x = island, y = flipper_length_mm, fill = island)) +
+geom_boxplot(alpha = 0.7) +
+labs(title = "Flipper Length by Island", y = "Flipper Length (mm)", x = "Island") +
+theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-13-2.png)<!-- -->
+
+The first boxplot produced shows the distribution of penguin body mass
+by island. Biscoe island has the highest median body mass with around
+4,750 grams, and its moderate spread suggests a fairly wide range of
+body sizes among the penguins living there. Torgersen Island has a lower
+median body mass of around 3,500 grams, with a spread similar to Dream
+Island, indicating moderate variability. Overall, these patterns
+indicate that penguins on Biscoe tend to be heavier, and those on Dream
+and Torgersen tend to be lighter. There is also the occasional outlier,
+such as the one on Dream Island. However, the boxes and whiskers overlap
+considerably across the three islands, suggesting that island alone does
+not create large or distinct differences in body mass.
+
+Body mass does vary slightly by island, but because the distributions
+overlap so much, these differences likely reflect the species that live
+on each island rather than the island itself. Larger species such as
+Gentoos are more common on some islands, which likely explains the
+higher body masses seen on Biscoe Island.
+
+The second boxplot produced shows the distribution of penguin flipper
+length by island. The boxplots for flipper length also show clear but
+modest differences across islands. Penguins on Biscoe Island have the
+highest median flipper length at around 215 millimeters. Dream Island
+penguins show a median flipper length of around 195 millimeters that
+falls between Biscoe Island and Torgersen Island. Penguins on Torgersen
+Island have the smallest median flipper length at around 190
+millimeters, although there is a higher outlier. These patterns show
+that Biscoe Island penguins generally have the longest flippers,
+Torgersen Island penguins the shortest, and Dream Island penguins fall
+in the middle.
+
+As with body mass, flipper length differences across islands appear
+small and slightly overlapping, indicating that the island itself has
+only a modest influence. Differences in species composition across
+islands likely explain much of the variation, as larger species like
+Gentoo are more common on certain islands.
+
+``` r
+ggplot(penguins_clean, aes(x = island, y = body_mass_g, fill = island)) +
+geom_boxplot(alpha = 0.7) +
+facet_wrap(~ species) +
+labs(title = "Body Mass by Island Within Each Species", y = "Body Mass (g)", x = "Island") +
+theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+``` r
+ggplot(penguins_clean, aes(x = island, y = flipper_length_mm, fill = island)) +
+geom_boxplot(alpha = 0.7) +
+facet_wrap(~ species) +
+labs(title = "Flipper Length by Island Within Each Species", y = "Flipper Length (mm)", x = "Island") +
+theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-14-2.png)<!-- -->
+
+The first faceted boxplot shows the distribution of body mass for
+Adelie, Chinstrap, and Gentoo penguins across Biscoe, Dream, and
+Torgersen Islands. For Adelie penguins, body mass is fairly consistent
+across islands, with Dream Island showing a slightly lower median and
+moderate spread. Chinstrap penguins appear only on Dream Island on this
+plot with two outliers and a small spread. Biscoe appears to have a
+slightly higher spread, indicating more variability in body mass on that
+island. Gentoo penguins display the largest body masses, particularly on
+Biscoe Island, with a higher median and a wider spread, while Dream
+Island has slightly lower medians and Torgersen has the fewest data
+points, suggesting less representation.
+
+Overall, within each species, body mass differences between islands are
+relatively small, with overlap in some cases. This indicates that
+species identity is the primary driver of body mass variation, while the
+island a penguin inhabits has only a modest influence. Larger medians or
+spreads on certain islands are likely due to the presence of more
+individuals from larger species (Gentoo) rather than a strong island
+effect.
+
+While some small variations exist across islands, body mass is largely
+determined by species, and any influence of the island itself is minor.
+
+The second faceted boxplot shows the distribution of flipper length for
+Adelie, Chinstrap, and Gentoo penguins across Biscoe, Dream, and
+Torgersen Islands. For Adelie penguins, median flipper length is within
+the same range (190) for each island, although there are a few outliers.
+Chinstrap penguins on Dream Island tend to have a slighty higher median
+(197). While Gentoo penguins on Biscoe island have the highest median
+flipper length (217).
+
+Overall, within each species, flipper length differences across islands
+are relatively modest, with some overlap between distributions. This
+suggests that species identity is the main factor influencing flipper
+size, while the island a penguin inhabits has only a minor effect.
+Slightly higher medians or greater spreads on certain islands are likely
+due to the presence of more individuals from larger species, such as
+Gentoo, rather than a strong island-specific influence.
+
+Flipper length is primarily determined by species, with island location
+playing only a subtle, secondary role.
+
 ### Which variable (bill length, bill depth, flipper length, or body mass) provides the strongest prediction of species classification? How do combines variables compare to single-variable predication?
 
+``` r
+library(ggplot2)
+library(dplyr)
+library(palmerpenguins)
+
+penguins_clean <- penguins |>
+  drop_na(species, bill_length_mm, bill_depth_mm,
+          flipper_length_mm, body_mass_g)
+
+
+ggplot(penguins_clean, aes(species, bill_length_mm, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Bill Length by Species",
+       x = "Species", y = "Bill Length (mm)") +
+  theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+``` r
+ggplot(penguins_clean, aes(species, bill_depth_mm, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Bill Depth by Species",
+       x = "Species", y = "Bill Depth (mm)") +
+  theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-15-2.png)<!-- -->
+
+``` r
+ggplot(penguins_clean, aes(species, flipper_length_mm, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Flipper Length by Species",
+       x = "Species", y = "Flipper Length (mm)") +
+  theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-15-3.png)<!-- -->
+
+``` r
+ggplot(penguins_clean, aes(species, body_mass_g, fill = species)) +
+  geom_boxplot() +
+  labs(title = "Body Mass by Species",
+       x = "Species", y = "Body Mass (g)") +
+  theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-15-4.png)<!-- -->
+
+The boxplots show differences in all four measurements across Adelie,
+Chinstrap, and Gentoo penguins. Gentoo penguins stand out as having both
+the longest flippers and the highest body mass, making these two
+variables the strongest indicators of species identity. Flipper length,
+in particular, shows almost no overlap between Gentoo and the other
+species, suggesting it is the single most distinguishable trait. Bill
+length varies across the three species, with Chinstrap penguins having
+the longest bills, Adelie the shortest, and Gentoo falling in between.
+Bill depth also varies, as Chinstrap penguins tend to have a larger bill
+depth, although Adelie penguins aren’t close behind.
+
+These patterns indicate that while all four traits vary by species,
+flipper length and body mass provide the clearest overall separation,
+specifically in Gentoo penguins, whereas bill depth and bill length are
+most useful for distinguishing Chinstrap penguins.
+
+Combining all four variables further improves species classification,
+resolving cases where a single variable might overlap between species.
+Combining all four variables further improves species classification,
+resolving cases where a single variable might overlap between species,
+and allows for nearly perfect prediction of species identity, showing
+that using multiple measurements provides the most reliable
+differentiation.
+
 ## Conclusion
+
+Our analysis of the Palmer Penguins dataset successfully met the goals
+outlined in our introduction. By examining key body size measurements
+across species, sex, and island, we identified clear and consistent
+patterns in physical traits. Species differences emerged as the
+strongest influence on body size, with Gentoo penguins generally showing
+the largest measurements and Adelie and Chinstrap following behind. Sex
+also played a role, with males tending to be slightly larger than
+females across species. In contrast, the island where penguins were
+found showed only minor variation, suggesting that location has far less
+impact on size than species or sex.
+
+These findings support our initial goal of understanding how biological
+and environmental factors relate to variation in penguin traits. While
+environmental differences between islands appear modest, species-level
+differences were distinct and meaningful. Looking ahead, further
+research using larger datasets or additional ecological variables such
+as diet, temperature, or nesting conditions, could help clarify why
+these physical differences exist and how they relate to penguin survival
+in their habitats.
