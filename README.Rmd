@@ -20,7 +20,7 @@ In pursuit of the stated goal, we will explore the following questions:
 
 3. Is there a relationship between flipper length and body mass across species? Do larger flippers indicate heavier penguins, and does this relationship differ by species? 
 
-4. How does sex influence body size? Are male penguins consistently larger than female penguins across all species, and does this vary in strength across difference species?
+4. How does sex influence body size? Are male penguins consistently larger than female penguins across all species, and does this vary in strength across different species?
 
 5. Does the island a penguins inhabits affect its body measurements? Are physical differences across islands still present even after accounting for species?
 
@@ -173,7 +173,7 @@ tapply(penguins_clean$flipper_length_mm, penguins_clean$species, range)
 
 These ranges showed that Gentoo penguins have much larger bodies overall, raising skepticism that part of the trend might simply reflect species-level differences. Because each species occupies a different size range, the overall positive trend could be partly due to species clustering rather than a universal relationship within all penguins. This made me cautious about assuming the trend applies equally to every individual penguin.
 
-### How does sex influence body size? Are male penguins consistently larger than female penguins across all species, and does this vary in strength across difference species?
+### How does sex influence body size? Are male penguins consistently larger than female penguins across all species, and does this vary in strength across different species?
 ```{r}
 penguins_clean |> 
   group_by(species, sex) |> 

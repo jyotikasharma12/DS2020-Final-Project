@@ -31,7 +31,7 @@ In pursuit of the stated goal, we will explore the following questions:
 
 4.  How does sex influence body size? Are male penguins consistently
     larger than female penguins across all species, and does this vary
-    in strength across difference species?
+    in strength across different species?
 
 5.  Does the island a penguins inhabits affect its body measurements?
     Are physical differences across islands still present even after
@@ -401,7 +401,7 @@ clustering rather than a universal relationship within all penguins.
 This made me cautious about assuming the trend applies equally to every
 individual penguin.
 
-### How does sex influence body size? Are male penguins consistently larger than female penguins across all species, and does this vary in strength across difference species?
+### How does sex influence body size? Are male penguins consistently larger than female penguins across all species, and does this vary in strength across different species?
 
 ``` r
 penguins_clean |> 
