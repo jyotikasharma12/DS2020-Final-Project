@@ -19,28 +19,27 @@ In pursuit of the stated goal, we will explore the following questions:
 
 1.  How do body size measurements vary between penguin species? Are
     certain species consistently larger in one or more measurements such
-    as body mass or flipper length? - Selena
+    as body mass or flipper length?
 
 2.  How do bill length and bill depth interact to help differentiate
     penguin species? Can these measurements be used to identify species
-    differences effectively? - Selena
+    differences effectively?
 
 3.  Is there a relationship between flipper length and body mass across
     species? Do larger flippers indicate heavier penguins, and does this
-    relationship differ by species? - Jyotika
+    relationship differ by species?
 
 4.  How does sex influence body size? Are male penguins consistently
     larger than female penguins across all species, and does this vary
-    in strength across difference species? - Jyotika
+    in strength across difference species?
 
 5.  Does the island a penguins inhabits affect its body measurements?
     Are physical differences across islands still present even after
-    accounting for species? - Grace
+    accounting for species?
 
 6.  Which variable (bill length, bill depth, flipper length, or body
     mass) provides the strongest prediction of species classification?
-    How do combines variables compare to single-variable predication? -
-    Grace
+    How do combines variables compare to single-variable predication?
 
 These are the main questions we intend to answer through analysis of the
 Palmer Penguins dataset. With the findings, we will be able to draw
