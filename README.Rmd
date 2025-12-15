@@ -26,7 +26,7 @@ In pursuit of the stated goal, we will explore the following questions:
 
 6. Which variable (bill length, bill depth, flipper length, or body mass) provides the strongest prediction of species classification? How do combines variables compare to single-variable predication? 
 
-These are the main questions we intend to answer through analysis of the Palmer Penguins dataset. With the findings, we will be able to draw meaningful conclusions about physical trait differences and the ecological factors that influence species variation in Antarctic penguins.
+The research questions focus on comparisons involving bill length, bill depth, flipper length, body mass, species, sex, and island because these variables enable the most meanigful investigation of biological differences and ecological patterns within the Palmer Penguins dataset. These variable comparisons reflect shared functional roles. Bill length and depth capture variation in feeding-related anatomy that is known to differ across penguin species, while flipper length and body mass serve as reliable indicators of overall body size and locomotion efficiency. These are the main questions we intend to answer through analysis of the Palmer Penguins dataset. With the findings, we will be able to draw meaningful conclusions about physical trait differences and the ecological factors that influence species variation in Antarctic penguins.
 
 ## Data
 
